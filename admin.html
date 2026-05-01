@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f97316" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VU Attendy" />
+  <meta name="description" content="Head office dashboard for VU Attendy" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>VU Attendy - Head Office</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1><span class="brand-accent">VAPE</span> <span class="brand-main">USTAD</span></h1>
+      <p>Head office dashboard for attendance, announcements, and complaints.</p>
+    </header>
+
+    <main>
+      <section id="admin-login-section" class="card">
+        <h2>Head Office Login</h2>
+        <form id="admin-login-form">
+          <label for="admin-username">Username</label>
+          <input id="admin-username" name="username" required />
+
+          <label for="admin-password">Password</label>
+          <input id="admin-password" name="password" type="password" required />
+
+          <button type="submit">Login</button>
+        </form>
+        <div id="admin-login-error" class="message error"></div>
+      </section>
+
+      <section id="admin-dashboard-section" class="card hidden">
+        <div class="top-row">
+          <div>
+            <h2 id="admin-welcome-title"></h2>
+            <p>View all workers and send daily messages.</p>
+          </div>
+          <button id="admin-logout-btn" class="secondary">Logout</button>
+        </div>
+
+        <div class="announcement-card">
+          <h3>Post Announcement</h3>
+          <form id="announcement-form">
+            <label for="announcement-message">Message</label>
+            <textarea id="announcement-message" rows="4" required></textarea>
+            <button type="submit">Publish</button>
+          </form>
+          <div id="announcement-status" class="message"></div>
+        </div>
+
+        <div class="admin-grid">
+          <div class="card card-sub">
+            <h3>Announcements</h3>
+            <ul id="admin-announcements-list"></ul>
+          </div>
+
+          <div class="card card-sub">
+            <h3>Employee Attendance</h3>
+            <table id="attendance-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Location</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="complaints-card">
+          <h3>Employee Complaints</h3>
+          <ul id="complaints-list"></ul>
+          <p id="no-complaints" class="message muted">No complaints yet.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

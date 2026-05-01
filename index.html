@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f97316" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VU Attendy" />
+  <meta name="description" content="Employee attendance app for Vape Ustad stores" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>VU Attendy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1><span class="brand-accent">VAPE</span> <span class="brand-main">USTAD</span></h1>
+      <p>Employee attendance, live photo, location, and head-office messages</p>
+    </header>
+
+    <main>
+      <section id="login-section" class="card">
+        <h2>Employee Login</h2>
+        <form id="login-form">
+          <label for="employee-id">Employee ID</label>
+          <input id="employee-id" name="employeeId" required />
+
+          <label for="employee-pass">Password</label>
+          <input id="employee-pass" name="password" type="password" required />
+
+          <button type="submit">Login</button>
+        </form>
+        <div id="login-error" class="message error"></div>
+      </section>
+
+      <section id="dashboard-section" class="card hidden">
+        <div class="top-row">
+          <div>
+            <h2 id="welcome-title"></h2>
+            <p id="employee-info"></p>
+            <p id="current-time" class="current-time"></p>
+          </div>
+          <button id="logout-btn" class="secondary">Logout</button>
+        </div>
+
+        <div class="status-grid">
+          <div>
+            <h3>Today's Attendance</h3>
+            <p id="attendance-status">Not checked in</p>
+            <p id="attendance-times"></p>
+          </div>
+          <div>
+            <h3>Salary Estimate</h3>
+            <p id="salary-summary">0 PKR</p>
+            <p id="overtime-summary" class="message muted"></p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkin-btn">Check In</button>
+          <button id="checkout-btn" class="secondary">Check Out</button>
+        </div>
+
+        <div class="split-section">
+          <div class="card card-sub">
+            <h3>Live Photo</h3>
+            <video id="camera-preview" autoplay playsinline></video>
+            <canvas id="photo-canvas" class="hidden"></canvas>
+            <img id="captured-photo" alt="Captured photo" class="hidden" />
+            <button id="capture-btn">Capture Photo</button>
+            <div id="photo-status" class="message"></div>
+          </div>
+
+          <div class="card card-sub">
+            <h3>Location</h3>
+            <button id="location-btn">Share Location</button>
+            <p id="location-status">Not shared</p>
+            <a id="map-link" href="#" target="_blank" class="hidden">Open location</a>
+          </div>
+        </div>
+
+        <div class="announcement-card">
+          <h3>Head Office Messages</h3>
+          <p class="message muted">Check this section daily for new announcements.</p>
+          <ul id="announcements-list"></ul>
+          <p id="no-announcements" class="message muted">No messages yet.</p>
+        </div>
+
+        <div class="complaint-card">
+          <h3>Submit Complaint</h3>
+          <p class="message muted">Have an issue? Let head office know.</p>
+          <form id="complaint-form">
+            <label for="complaint-message">Your Complaint</label>
+            <textarea id="complaint-message" rows="3" required placeholder="Describe your issue..."></textarea>
+            <button type="submit">Send to Head Office</button>
+          </form>
+          <div id="complaint-status" class="message"></div>
+        </div>
+
+        <div class="admin-link">
+          Head office can login <a href="admin.html">here</a> to post notices and monitor attendance.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

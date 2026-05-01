@@ -1,0 +1,8 @@
+{
+  "employees": [
+    { "id": "E1001", "name": "Ali Khan", "password": "1234", "hourlyRate": 300 },
+    { "id": "E1002", "name": "Sara Ahmed", "password": "1234", "hourlyRate": 300 },
+    { "id": "E1003", "name": "Omar Malik", "password": "1234", "hourlyRate": 300 }
+  ],
+  "attendance": []
+}
