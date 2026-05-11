@@ -4,7 +4,8 @@
   "description": "Employee attendance app for Vape Ustad stores",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.4"

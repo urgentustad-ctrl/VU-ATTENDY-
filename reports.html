@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f97316" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VU Attendy" />
+  <meta name="description" content="Employee attendance reports for VU Attendy" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>VU Attendy - Reports</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .report-filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .report-filters input {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .report-filters button {
+      background-color: #f97316;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .report-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-box {
+      background-color: #f5f5f5;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #f97316;
+      text-align: center;
+    }
+
+    .summary-box h4 {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-box .value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .attendance-records {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .attendance-records thead {
+      background-color: #f5f5f5;
+    }
+
+    .attendance-records th {
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .attendance-records td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
+      font-size: 0.9rem;
+    }
+
+    .attendance-records tbody tr:hover {
+      background-color: #fafafa;
+    }
+
+    .print-btn {
+      background-color: #16a34a;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .back-btn {
+      background-color: #6b7280;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-right: 1rem;
+    }
+
+    .report-actions {
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 2rem;
+      color: #999;
+    }
+
+    @media print {
+      .report-filters,
+      .report-actions,
+      .back-btn,
+      .print-btn {
+        display: none;
+      }
+
+      body {
+        background-color: white;
+      }
+
+      .card {
+        box-shadow: none;
+        border: none;
+      }
+
+      .attendance-records {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .report-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .report-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .attendance-records {
+        font-size: 0.8rem;
+      }
+
+      .attendance-records th,
+      .attendance-records td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1><span class="brand-accent">VAPE</span> <span class="brand-main">USTAD</span></h1>
+      <p>Employee Attendance Report</p>
+    </header>
+
+    <main>
+      <section id="report-section" class="card">
+        <div class="report-actions">
+          <button class="back-btn" id="back-btn">← Back to Dashboard</button>
+          <button class="print-btn" id="print-btn">🖨️ Print Report</button>
+        </div>
+
+        <h2 id="report-title">Attendance Report</h2>
+
+        <div class="report-filters">
+          <div>
+            <label for="start-date">Start Date</label>
+            <input type="date" id="start-date" />
+          </div>
+          <div>
+            <label for="end-date">End Date</label>
+            <input type="date" id="end-date" />
+          </div>
+          <div style="display: flex; align-items: flex-end;">
+            <button id="generate-report-btn">Generate Report</button>
+          </div>
+        </div>
+
+        <div class="report-summary" id="report-summary" style="display: none;">
+          <div class="summary-box">
+            <h4>Total Days</h4>
+            <div class="value" id="total-days">0</div>
+          </div>
+          <div class="summary-box">
+            <h4>Present Days</h4>
+            <div class="value" id="present-days">0</div>
+          </div>
+          <div class="summary-box">
+            <h4>Total Hours</h4>
+            <div class="value" id="total-hours">0h</div>
+          </div>
+          <div class="summary-box">
+            <h4>Est. Salary</h4>
+            <div class="value" id="est-salary">0 PKR</div>
+          </div>
+        </div>
+
+        <div id="report-content">
+          <p class="no-data">Select a date range and click "Generate Report" to view your attendance records.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="reports.js"></script>
+</body>
+</html>

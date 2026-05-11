@@ -216,14 +216,37 @@ img {
 .admin-link {
   margin-top: 18px;
   color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .admin-link a {
   color: #f97316;
   text-decoration: none;
+  display: inline-block;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: white;
+  border-radius: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .admin-link a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 30px rgba(249, 115, 22, 0.28);
+}
+
+.admin-link a.text-only {
+  background: transparent;
+  padding: 0;
+  color: #f97316;
+}
+
+.admin-link a.text-only:hover {
+  transform: none;
+  box-shadow: none;
   text-decoration: underline;
 }
 

@@ -248,6 +248,59 @@ app.post('/api/attendance/location', async (req, res) => {
   res.json(record);
 });
 
+app.get('/api/attendance/report/:employeeId', async (req, res) => {
+  const { employeeId } = req.params;
+  const { startDate, endDate } = req.query;
+  
+  if (!employeeId) {
+    return res.status(400).json({ error: 'Employee ID is required.' });
+  }
+
+  const data = await loadData();
+  const employee = data.employees.find(e => e.id === employeeId);
+  if (!employee) {
+    return res.status(404).json({ error: 'Employee not found.' });
+  }
+
+  let records = data.attendance.filter(r => r.employeeId === employeeId);
+
+  if (startDate) {
+    records = records.filter(r => new Date(r.date) >= new Date(startDate));
+  }
+  if (endDate) {
+    records = records.filter(r => new Date(r.date) <= new Date(endDate));
+  }
+
+  const totalDays = records.length;
+  const presentDays = records.filter(r => r.loginTime).length;
+  const absentDays = totalDays - presentDays;
+
+  let totalHours = 0;
+  records.forEach(r => {
+    if (r.loginTime && r.logoutTime) {
+      const login = new Date(r.loginTime);
+      const logout = new Date(r.logoutTime);
+      const hours = (logout - login) / (1000 * 60 * 60);
+      totalHours += hours;
+    }
+  });
+
+  const estimatedSalary = totalHours * employee.hourlyRate;
+
+  res.json({
+    employee: { id: employee.id, name: employee.name, hourlyRate: employee.hourlyRate },
+    period: { startDate, endDate },
+    summary: {
+      totalDays,
+      presentDays,
+      absentDays,
+      totalHours: totalHours.toFixed(2),
+      estimatedSalary: Math.round(estimatedSalary)
+    },
+    records: records.sort((a, b) => new Date(a.date) - new Date(b.date))
+  });
+});
+
 app.listen(port, () => {
   console.log(`VU Attendy server running at http://localhost:${port}`);
 });
